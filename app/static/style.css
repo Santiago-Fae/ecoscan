@@ -1,0 +1,63 @@
+:root { --verde: #2e7d32; --bg: #f4f8f4; --txt: #1b2a1b; }
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, Segoe UI, sans-serif; background: var(--bg); color: var(--txt); line-height: 1.55; }
+a { color: inherit; }
+.hero { background: linear-gradient(135deg, #1b5e20, #43a047); color: #fff; padding: 1rem 1.5rem 4rem; text-align: center; }
+.hero nav { display: flex; gap: 1.2rem; align-items: center; justify-content: center; flex-wrap: wrap; margin-bottom: 3rem; }
+.hero nav strong { margin-right: auto; font-size: 1.3rem; }
+.hero nav a { text-decoration: none; opacity: .9; }
+.hero h1 { font-size: clamp(2rem, 6vw, 3.4rem); margin: 0 0 .5rem; }
+.hero p { max-width: 640px; margin: 0 auto 1.5rem; font-size: 1.1rem; }
+.btn { display: inline-block; background: #fff; color: var(--verde); border: 0; padding: .8rem 1.6rem; border-radius: 999px; font-weight: 700; font-size: 1rem; cursor: pointer; text-decoration: none; }
+.btn.small { padding: .4rem 1rem; }
+form .btn, #result .btn { background: var(--verde); color: #fff; }
+main { max-width: 960px; margin: 0 auto; padding: 0 1.2rem; }
+section { padding: 2.5rem 0; }
+h2 { color: var(--verde); font-size: 1.8rem; }
+.cards { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+article, .item { background: #fff; padding: 1.2rem; border-radius: 14px; box-shadow: 0 2px 8px #0001; }
+article h3 { margin-top: 0; }
+.steps li { margin: .4rem 0; }
+.swatches { display: grid; gap: .8rem; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+.swatch { background: #fff; border-top: 8px solid var(--c); border-radius: 10px; padding: .8rem; text-align: center; box-shadow: 0 2px 8px #0001; display: flex; flex-direction: column; }
+.swatch span { font-size: 2rem; }
+.swatch small { color: #555; }
+form { display: grid; gap: .8rem; max-width: 520px; }
+.drop { border: 2px dashed var(--verde); border-radius: 14px; padding: 1.5rem; text-align: center; background: #fff; cursor: pointer; display: grid; gap: .6rem; justify-items: center; }
+.drop.over { background: #e8f5e9; }
+.drop img { max-width: 100%; max-height: 260px; border-radius: 8px; }
+input[type=text] { padding: .8rem; border: 1px solid #bbb; border-radius: 10px; font-size: 1rem; }
+#status { min-height: 1.5rem; font-weight: 600; }
+#status.error { color: #c62828; }
+#result { display: grid; gap: 1rem; margin-top: 1rem; }
+#result > img { max-width: 100%; border-radius: 12px; }
+.item { border-left: 10px solid var(--c, #999); }
+.item h3 { margin: 0 0 .2rem; }
+.item .conf { color: #666; font-size: .9rem; }
+.tag { display: inline-block; padding: .15rem .7rem; border-radius: 999px; background: var(--c); color: #fff; font-weight: 600; font-size: .85rem; }
+.tag.no { background: #757575; }
+.item ul { padding-left: 1.2rem; }
+.item .btn { margin-top: .4rem; }
+footer { text-align: center; padding: 2rem 1rem; color: #555; font-size: .9rem; }
+
+/* Esclarecimento, feedback e dashboard */
+.hero.slim { padding-bottom: 2.5rem; }
+.interaction { margin-top: 1rem; border-top: 1px solid #0001; padding-top: .8rem; }
+.doubt { background: #fff8e1; border-radius: 10px; padding: .8rem; }
+.doubt p { margin: 0 0 .5rem; }
+.ops { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: .5rem; }
+.feedback { display: flex; gap: .5rem; align-items: center; flex-wrap: wrap; }
+.btn-op { border: 1px solid #aaa; background: #fff; border-radius: 999px; padding: .4rem .9rem; cursor: pointer; font-size: .95rem; }
+.btn-op:hover { background: #e8f5e9; border-color: var(--verde); }
+.interaction select { padding: .5rem; border-radius: 8px; border: 1px solid #bbb; font-size: .95rem; }
+.thanks { margin: 0; color: var(--verde); font-weight: 600; }
+.kpis { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+.kpi { background: #fff; border-radius: 14px; padding: 1.2rem; box-shadow: 0 2px 8px #0001; display: flex; flex-direction: column; }
+.kpi b { font-size: 2.2rem; color: var(--verde); line-height: 1.1; }
+.kpi span { color: #555; }
+.bars { display: grid; gap: .6rem; }
+.bar { display: grid; grid-template-columns: 11rem 1fr 3rem; gap: .8rem; align-items: center; }
+.bar b { text-align: right; }
+.track { background: #e0e7e0; border-radius: 999px; height: 1.3rem; overflow: hidden; }
+.fill { height: 100%; border-radius: 999px; transition: width .5s; }
+@media (max-width: 560px) { .bar { grid-template-columns: 8rem 1fr 2.5rem; } }

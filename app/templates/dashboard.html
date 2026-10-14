@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EcoScan – Dashboard</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="hero slim">
+    <nav><strong>♻️ EcoScan</strong>
+      <a href="/">Home</a>
+      <a href="/#identify" class="btn small">Identify an item</a>
+    </nav>
+    <h1>Dashboard</h1>
+    <p>What users have identified so far. Statistics only: no photo is ever stored.</p>
+  </header>
+
+  <main>
+    <section>
+      <div class="kpis" id="kpis"></div>
+    </section>
+    <section>
+      <h2>Identified materials</h2>
+      <div id="bars" class="bars"></div>
+      <p id="empty" hidden>No data yet. <a href="/#identify">Upload the first photo!</a></p>
+    </section>
+    <section>
+      <h2>Model quality</h2>
+      <p id="quality"></p>
+      <div id="confusions"></div>
+    </section>
+  </main>
+
+  <footer>Refreshes every 10 seconds.</footer>
+  <script>window.MATERIALS = {{ materials|tojson }};</script>
+  <script src="/static/dashboard.js"></script>
+</body>
+</html>

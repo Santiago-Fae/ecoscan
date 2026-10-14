@@ -1,0 +1,8 @@
+fastapi>=0.110
+uvicorn[standard]>=0.29
+python-multipart>=0.0.9
+jinja2>=3.1
+pillow>=10.1
+ultralytics>=8.3
+# CLIP (OpenAI, MIT) - requer git instalado
+clip @ git+https://github.com/ultralytics/CLIP.git
