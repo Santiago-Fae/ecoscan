@@ -40,7 +40,12 @@ input[type=text] { padding: .8rem; border: 1px solid #bbb; border-radius: 10px; 
 .item .btn { margin-top: .4rem; }
 footer { text-align: center; padding: 2rem 1rem; color: #555; font-size: .9rem; }
 
-/* Esclarecimento, feedback e dashboard */
+/* Language switcher */
+.lang-switch { display: inline-flex; border: 1px solid #ffffff88; border-radius: 999px; overflow: hidden; }
+.lang-switch a { padding: .25rem .7rem; font-size: .85rem; font-weight: 600; opacity: .8; }
+.lang-switch a.active { background: #fff; color: var(--verde); opacity: 1; }
+
+/* Clarification, feedback and dashboard */
 .hero.slim { padding-bottom: 2.5rem; }
 .interaction { margin-top: 1rem; border-top: 1px solid #0001; padding-top: .8rem; }
 .doubt { background: #fff8e1; border-radius: 10px; padding: .8rem; }

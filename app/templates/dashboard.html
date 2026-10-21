@@ -1,19 +1,22 @@
 <!doctype html>
-<html lang="en">
+<html lang="{{ lang }}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>EcoScan – Dashboard</title>
+  <title>{{ t("dash_page_title") }}</title>
   <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
   <header class="hero slim">
     <nav><strong>♻️ EcoScan</strong>
-      <a href="/">Home</a>
-      <a href="/#identify" class="btn small">Identify an item</a>
+      <a href="/">{{ t("nav_home") }}</a>
+      <a href="/#identify" class="btn small">{{ t("nav_identify") }}</a>
+      <span class="lang-switch">
+        {% for code, name in languages.items() %}<a href="?lang={{ code }}" title="{{ name }}"{% if code == lang %} class="active" aria-current="true"{% endif %}>{{ code|upper }}</a>{% endfor %}
+      </span>
     </nav>
-    <h1>Dashboard</h1>
-    <p>What users have identified so far. Statistics only: no photo is ever stored.</p>
+    <h1>{{ t("dash_title") }}</h1>
+    <p>{{ t("dash_subtitle") }}</p>
   </header>
 
   <main>
@@ -21,19 +24,20 @@
       <div class="kpis" id="kpis"></div>
     </section>
     <section>
-      <h2>Identified materials</h2>
+      <h2>{{ t("bars_title") }}</h2>
       <div id="bars" class="bars"></div>
-      <p id="empty" hidden>No data yet. <a href="/#identify">Upload the first photo!</a></p>
+      <p id="empty" hidden>{{ t("empty_text") }} <a href="/#identify">{{ t("empty_link") }}</a></p>
     </section>
     <section>
-      <h2>Model quality</h2>
+      <h2>{{ t("quality_title") }}</h2>
       <p id="quality"></p>
       <div id="confusions"></div>
     </section>
   </main>
 
-  <footer>Refreshes every 10 seconds.</footer>
-  <script>window.MATERIALS = {{ materials|tojson }};</script>
+  <footer>{{ t("footer_refresh") }}</footer>
+  <script>window.LANG = {{ lang|tojson }}; window.I18N = {{ i18n|tojson }}; window.MATERIALS = {{ materials|tojson }};</script>
+  <script src="/static/i18n.js"></script>
   <script src="/static/dashboard.js"></script>
 </body>
 </html>

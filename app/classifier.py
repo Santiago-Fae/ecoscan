@@ -9,6 +9,7 @@ import io
 import os
 from dataclasses import dataclass
 from functools import lru_cache
+from pathlib import Path
 
 import torch
 from PIL import Image, ImageDraw, ImageFont
@@ -22,6 +23,7 @@ MIN_MATERIAL_PROB = float(os.getenv("MIN_MATERIAL_PROB", "0.45"))
 UNCERTAIN_BELOW = 0.70  # below this confidence, the user is asked to clarify
 ALT_MIN_PROB = 0.10  # minimum probability to list an alternative material
 MAX_OBJECTS = 8
+FONT_PATH = Path(os.getenv("FONT_PATH", Path(__file__).parent / "static" / "fonts" / "DejaVuSans.ttf"))
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 
@@ -76,10 +78,18 @@ def _crop(image: Image.Image, xyxy, pad=0.08) -> Image.Image:
     return image.crop(tuple(int(v) for v in box))
 
 
+def _label_font(size: int):
+    """DejaVu Sans covers accented characters (Pillow's default font does not)."""
+    try:
+        return ImageFont.truetype(str(FONT_PATH), size)
+    except OSError:
+        return ImageFont.load_default(size=size)
+
+
 def _annotate(image: Image.Image, items: list) -> str:
     img = image.copy()
     draw = ImageDraw.Draw(img)
-    font = ImageFont.load_default(size=max(14, img.width // 40))
+    font = _label_font(max(14, img.width // 40))
     for it in items:
         if it["box"] is None:
             continue
@@ -94,7 +104,7 @@ def _annotate(image: Image.Image, items: list) -> str:
     return "data:image/jpeg;base64," + base64.b64encode(buf.getvalue()).decode()
 
 
-def analyze(image: Image.Image, city: str | None = None) -> dict:
+def analyze(image: Image.Image, city: str | None = None, lang: str = "en") -> dict:
     models = load_models()
     detections = models.yolo.predict(image, conf=YOLO_CONF, verbose=False)[0]
 
@@ -115,7 +125,7 @@ def analyze(image: Image.Image, city: str | None = None) -> dict:
         if material not in best or prob > best[material]["confidence"]:
             # Plausible alternatives: used by the clarification question
             alternatives = [
-                {**material_info(k, city), "confidence": round(v, 3)}
+                {**material_info(k, city, lang), "confidence": round(v, 3)}
                 for k, v in ranking[:3] if k != material and v >= ALT_MIN_PROB
             ]
             best[material] = {
@@ -124,7 +134,7 @@ def analyze(image: Image.Image, city: str | None = None) -> dict:
                 "uncertain": prob < UNCERTAIN_BELOW or bool(alternatives and alternatives[0]["confidence"] >= 0.25),
                 "alternatives": alternatives,
                 "box": [int(v) for v in box] if box else None,
-                "material": material_info(material, city),
+                "material": material_info(material, city, lang),
             }
 
     for box, yolo_class, _ in candidates:

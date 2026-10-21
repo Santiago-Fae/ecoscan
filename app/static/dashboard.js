@@ -5,8 +5,8 @@ function kpi(value, caption) {
   return `<div class="kpi"><b>${value}</b><span>${caption}</span></div>`;
 }
 
-function plural(n, one, many) {
-  return n === 1 ? one : many;
+function plural(n, forms) {
+  return n === 1 ? forms[0] : forms[1];
 }
 
 async function load() {
@@ -14,10 +14,10 @@ async function load() {
   const fb = d.feedback;
 
   document.getElementById("kpis").innerHTML =
-    kpi(d.total_analyses, plural(d.total_analyses, "photo analyzed", "photos analyzed")) +
-    kpi(d.total_items, plural(d.total_items, "material identified", "materials identified")) +
-    kpi(fb.accuracy === null ? "–" : Math.round(fb.accuracy * 100) + "%", "accuracy (as rated by users)") +
-    kpi(d.uncertain_items, "times the model asked for help");
+    kpi(d.total_analyses, plural(d.total_analyses, tr("photos"))) +
+    kpi(d.total_items, plural(d.total_items, tr("materials"))) +
+    kpi(fb.accuracy === null ? "–" : Math.round(fb.accuracy * 100) + "%", tr("accuracy")) +
+    kpi(d.uncertain_items, tr("asked_help"));
 
   const max = Math.max(1, ...d.by_material.map(m => m.total));
   document.getElementById("empty").hidden = d.by_material.length > 0;
@@ -29,12 +29,12 @@ async function load() {
   }).join("");
 
   document.getElementById("quality").textContent = fb.answered
-    ? `${fb.answered} ratings: ${fb.correct} correct and ${fb.corrected} corrected by users.`
-    : "No user ratings yet.";
+    ? tr("ratings", { answered: fb.answered, correct: fb.correct, corrected: fb.corrected })
+    : tr("no_ratings");
 
   document.getElementById("confusions").innerHTML = d.confusions.length
-    ? "<h3>Most common mistakes</h3><ul>" + d.confusions.map(c =>
-        `<li>The model said <b>${label(c.predicted)}</b>, but it was <b>${label(c.actual)}</b> (${c.total}×)</li>`).join("") + "</ul>"
+    ? `<h3>${tr("mistakes")}</h3><ul>` + d.confusions.map(c =>
+        `<li>${tr("model_said", { predicted: label(c.predicted), actual: label(c.actual), n: c.total })}</li>`).join("") + "</ul>"
     : "";
 }
 

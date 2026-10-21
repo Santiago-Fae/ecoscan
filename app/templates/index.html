@@ -1,42 +1,45 @@
 <!doctype html>
-<html lang="en">
+<html lang="{{ lang }}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>EcoScan – Recycle the right way</title>
+  <title>{{ t("page_title") }}</title>
   <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
   <header class="hero">
     <nav><strong>♻️ EcoScan</strong>
-      <a href="#why">Why recycle</a>
-      <a href="#colors">Bin colors</a>
-      <a href="/dashboard">Dashboard</a>
-      <a href="#identify" class="btn small">Identify an item</a>
+      <a href="#why">{{ t("nav_why") }}</a>
+      <a href="#colors">{{ t("nav_colors") }}</a>
+      <a href="/dashboard">{{ t("nav_dashboard") }}</a>
+      <a href="#identify" class="btn small">{{ t("nav_identify") }}</a>
+      <span class="lang-switch">
+        {% for code, name in languages.items() %}<a href="?lang={{ code }}" title="{{ name }}"{% if code == lang %} class="active" aria-current="true"{% endif %}>{{ code|upper }}</a>{% endfor %}
+      </span>
     </nav>
-    <h1>Recycle the right way</h1>
-    <p>Find out what an object is made of and where to drop it off, using open-source AI (YOLO + CLIP).</p>
-    <a href="#identify" class="btn">Upload a photo</a>
+    <h1>{{ t("hero_title") }}</h1>
+    <p>{{ t("hero_text") }}</p>
+    <a href="#identify" class="btn">{{ t("hero_cta") }}</a>
   </header>
 
   <main>
     <section id="why">
-      <h2>Why recycle?</h2>
+      <h2>{{ t("why_title") }}</h2>
       <div class="cards">
-        <article><h3>🌍 Less landfill waste</h3><p>Much of what we throw away can go back into the production chain, reducing the volume sent to landfills.</p></article>
-        <article><h3>⚡ Saves resources</h3><p>Recycling aluminum, for example, takes far less energy than producing it from ore.</p></article>
-        <article><h3>🤝 Creates income</h3><p>The recycling chain supports cooperatives and thousands of waste pickers. Sorting correctly helps them directly.</p></article>
+        <article><h3>{{ t("why_1_title") }}</h3><p>{{ t("why_1_text") }}</p></article>
+        <article><h3>{{ t("why_2_title") }}</h3><p>{{ t("why_2_text") }}</p></article>
+        <article><h3>{{ t("why_3_title") }}</h3><p>{{ t("why_3_text") }}</p></article>
       </div>
-      <h3>Sort in 3 steps</h3>
+      <h3>{{ t("steps_title") }}</h3>
       <ol class="steps">
-        <li><b>Clean:</b> rinse packaging, without wasting water.</li>
-        <li><b>Separate:</b> each material in its own bin or collection point.</li>
-        <li><b>Drop off:</b> use selective collection, a recycling center or a cooperative.</li>
+        <li>{{ t("step_1")|safe }}</li>
+        <li>{{ t("step_2")|safe }}</li>
+        <li>{{ t("step_3")|safe }}</li>
       </ol>
     </section>
 
     <section id="colors">
-      <h2>Selective-collection bin colors</h2>
+      <h2>{{ t("colors_title") }}</h2>
       <div class="swatches">
         {% for m in materials.values() %}
         <div class="swatch" style="--c: {{ m.hex }}"><span>{{ m.icon }}</span><b>{{ m.name }}</b><small>{{ m.bin_color }}</small></div>
@@ -45,23 +48,25 @@
     </section>
 
     <section id="identify">
-      <h2>Identify your item</h2>
+      <h2>{{ t("identify_title") }}</h2>
       <form id="form">
         <label class="drop" id="drop">
           <input type="file" id="file" name="image" accept="image/*" required hidden>
-          <span id="drop-text">Click or drag an image here</span>
+          <span id="drop-text">{{ t("drop_text") }}</span>
           <img id="preview" alt="" hidden>
         </label>
-        <input type="text" id="city" name="city" placeholder="Your city (optional, improves the location search)">
-        <button class="btn" id="submit" type="submit">Analyze</button>
+        <input type="text" id="city" name="city" placeholder="{{ t("city_placeholder") }}">
+        <input type="hidden" name="lang" value="{{ lang }}">
+        <button class="btn" id="submit" type="submit">{{ t("analyze_btn") }}</button>
       </form>
       <p id="status" role="status"></p>
       <div id="result"></div>
     </section>
   </main>
 
-  <footer>Built with FastAPI, YOLO (Ultralytics) and CLIP. Collection rules vary by municipality: check with your local authority.</footer>
-  <script>window.MATERIALS = {{ materials|tojson }};</script>
+  <footer>{{ t("footer") }}</footer>
+  <script>window.LANG = {{ lang|tojson }}; window.I18N = {{ i18n|tojson }}; window.MATERIALS = {{ materials|tojson }};</script>
+  <script src="/static/i18n.js"></script>
   <script src="/static/app.js"></script>
 </body>
 </html>
